@@ -29,6 +29,7 @@ mockk = "1.14.11"
 coreTesting = "2.2.0"
 hiltAndroidTesting = "2.59.2"
 roomTesting = "2.8.4"
+coil = "2.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -68,6 +69,7 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomTesting" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -108,4 +108,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.squareup.moshi.kotlin)
     implementation(libs.converter.moshi)
+
+    // Images
+    implementation(libs.coil.compose)
 }
