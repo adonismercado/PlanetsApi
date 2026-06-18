@@ -4,7 +4,7 @@ import edu.ucne.planetsapi.data.remote.Resource
 import edu.ucne.planetsapi.data.remote.dto.PlanetDto
 
 interface PlanetRepository {
-    suspend fun getPlantes(
+    suspend fun getPlanets(
         page: Int,
         limit: Int,
         name: String?,
