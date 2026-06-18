@@ -38,6 +38,10 @@ fun DetailPlanetScreen (
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    DetailPlanetBody(
+        state = state,
+        onBack = onBack
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
