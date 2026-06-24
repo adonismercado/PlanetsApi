@@ -29,14 +29,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import edu.ucne.planetsapi.data.remote.dto.PlanetDto
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListPLanetScreen(
-    viewModel: ListPlanetViewModel,
+fun ListPlanetScreen(
+    viewModel: ListPlanetViewModel = hiltViewModel(),
     onPlanetClick: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -112,7 +113,7 @@ fun Filters(
         ) {
             OutlinedTextField(
                 value = name,
-                onValueChange = { onEvent(ListPlanetUiEvent.UpdateFilters(it,null)) },
+                onValueChange = {name -> onEvent(ListPlanetUiEvent.UpdateFilters(name,null)) },
                 label = { Text("Nombre:") },
                 modifier = Modifier.fillMaxWidth()
             )
