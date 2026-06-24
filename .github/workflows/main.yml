@@ -37,3 +37,4 @@ jobs:
         name: Unit Tests
         path: app/build/test-results/testDebugUnitTest/TEST-*.xml
         reporter: java-junit
+
