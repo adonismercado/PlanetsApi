@@ -8,12 +8,10 @@ import javax.inject.Inject
 class GetPlanetUseCase @Inject constructor(
     private val repository: PlanetRepository
 ) {
-    suspend operator fun invoke(
+    operator fun invoke(
         page: Int = 1,
         limit: Int = 10,
         name: String? = null,
         isDestroyed: Boolean? = null,
-    ): Resource<List<PlanetDto>> {
-        return repository.getPlanets(page, limit, name, isDestroyed)
-    }
+    ) = repository.getPlanets(page,limit,name,isDestroyed)
 }
