@@ -42,7 +42,7 @@ fun AppNavHost(
             )
         }
 
-        composable<Screen.PlanetList> {
+        composable<Screen.CharacterList> {
             CharacterListScreen(
                 onCharacterClick = { characterId ->
                     navHostController.navigate(Screen.CharacterDetail(characterId))
