@@ -1,6 +1,6 @@
 package edu.ucne.planetsapi.domain.model
 
-data class Characters (
+data class Character (
     val id: Int,
     val name: String,
     val ki: String,
