@@ -13,7 +13,5 @@ class GetPlanetUseCase @Inject constructor(
         limit: Int = 10,
         name: String? = null,
         isDestroyed: Boolean? = null,
-    ): Resource<List<PlanetDto>> {
-        return repository.getPlanets(page, limit, name, isDestroyed)
-    }
+    ) = repository.getPlanets(page,limit,name,isDestroyed)
 }
