@@ -13,7 +13,7 @@ class CharacterRemoteDataSource @Inject constructor(
         page: Int,
         limit: Int,
         name: String?,
-        gender: String,
+        gender: String?,
         race: String?,
     ): Result<CharacterResponseDto> {
         try {
