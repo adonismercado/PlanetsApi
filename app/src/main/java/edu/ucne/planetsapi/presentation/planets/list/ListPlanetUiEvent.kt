@@ -1,4 +1,4 @@
-package edu.ucne.planetsapi.presentation.list
+package edu.ucne.planetsapi.presentation.planets.list
 
 interface ListPlanetUiEvent {
     data class UpdateFilters(

@@ -1,4 +1,4 @@
-package edu.ucne.planetsapi.presentation.list
+package edu.ucne.planetsapi.presentation.planets.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import edu.ucne.planetsapi.data.remote.dto.PlanetDto
 import edu.ucne.planetsapi.domain.model.Planet
 
 @OptIn(ExperimentalMaterial3Api::class)
