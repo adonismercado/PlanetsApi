@@ -33,6 +33,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import edu.ucne.planetsapi.data.remote.dto.PlanetDto
+import edu.ucne.planetsapi.domain.model.Planet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -130,7 +131,7 @@ fun Filters(
 
 @Composable
 fun PlanetItem(
-    planet: PlanetDto,
+    planet: Planet,
     onClick: () -> Unit
 ) {
     ElevatedCard(
