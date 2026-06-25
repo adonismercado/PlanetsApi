@@ -22,9 +22,9 @@ class CharacterListViewModel @Inject constructor(
         loadCharacters()
     }
 
-    private fun onEvent(event: CharacterListUiEvent) {
+    fun onEvent(event: CharacterListUiEvent) {
         when (event) {
-            is CharacterListUiEvent.UpdateFIlters -> _state.update {
+            is CharacterListUiEvent.UpdateFilters -> _state.update {
                 it.copy(
                     filterName = event.name,
                     filterGender = event.gender,
