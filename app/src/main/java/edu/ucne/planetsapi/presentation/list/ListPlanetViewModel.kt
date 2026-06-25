@@ -48,23 +48,10 @@ class ListPlanetViewModel @Inject constructor(
                     is Resource.Loading -> _state.update { it.copy(isLoading = true) }
 
                     is Resource.Success -> {
-                        val listPlanets = result.data.orEmpty()
-
-                        val filtered = if (current.nameFilter.isBlank()) {
-                            listPlanets
-                        } else {
-                            listPlanets.filter { planet ->
-                                planet.name.contains(
-                                    current.nameFilter.trim(),
-                                    ignoreCase = true
-                                )
-                            }
-                        }
-
                         _state.update {
                             it.copy(
                                 isLoading = false,
-                                planets = filtered,
+                                planets = result.data.orEmpty(),
                                 error = null
                             )
                         }
