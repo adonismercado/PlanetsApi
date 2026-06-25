@@ -1,8 +1,7 @@
-package edu.ucne.planetsapi.presentation.list
+package edu.ucne.planetsapi.presentation.characters.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -20,7 +19,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -32,35 +30,34 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import edu.ucne.planetsapi.data.remote.dto.PlanetDto
-import edu.ucne.planetsapi.domain.model.Planet
+import edu.ucne.planetsapi.domain.model.Character
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListPlanetScreen(
-    viewModel: ListPlanetViewModel = hiltViewModel(),
-    onPlanetClick: (Int) -> Unit
+fun CharacterListScreen(
+    viewModel: CharacterListViewModel = hiltViewModel(),
+    onCharacterClick: (Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    ListPlanetBody(
+    ListBodyScreen(
         state = state,
         onEvent = viewModel::onEvent,
-        onPlanetClick = onPlanetClick
+        onCharacterClick = onCharacterClick
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListPlanetBody(
-    state: ListPlanetUiState,
-    onEvent: (ListPlanetUiEvent) -> Unit,
-    onPlanetClick: (Int) -> Unit
+fun ListBodyScreen(
+    state: CharacterListUiState,
+    onEvent: (CharacterListUiEvent) -> Unit,
+    onCharacterClick: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Dragon Ball Planets") }
+                title = { Text("Personajes Dragon Ball") }
             )
         }
     ) { padding ->
@@ -69,28 +66,28 @@ fun ListPlanetBody(
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            Filters(
-                name = state.nameFilter,
+            FilterSection(
+                name = state.filterName,
+                gender = state.filterGender,
+                race = state.filterRace,
                 onEvent = onEvent
             )
 
             if (state.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
             }
 
             LazyColumn(
                 contentPadding = PaddingValues(16.dp)
             ) {
-                items(state.planets) { planet ->
-                    PlanetItem(
-                        planet = planet,
-                        onClick = { onPlanetClick(planet.id) }
+                items(state.characters) { character ->
+                    CharacterItem(
+                        character = character,
+                        onClick = { onCharacterClick(character.id) }
                     )
+
                     Spacer(modifier = Modifier.height(4.dp))
                 }
             }
@@ -99,40 +96,55 @@ fun ListPlanetBody(
 }
 
 @Composable
-fun Filters(
+fun FilterSection(
     name: String,
-    onEvent: (ListPlanetUiEvent) -> Unit
+    gender: String,
+    race: String,
+    onEvent: (CharacterListUiEvent) -> Unit,
 ) {
     ElevatedCard(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+        OutlinedTextField(
+            value = name,
+            onValueChange = { onEvent(CharacterListUiEvent.UpdateFilters(it, gender, race))},
+            label = { Text("Nombre (ej. Goku") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedTextField(
-                value = name,
-                onValueChange = {name -> onEvent(ListPlanetUiEvent.UpdateFilters(name,null)) },
-                label = { Text("Nombre:") },
-                modifier = Modifier.fillMaxWidth()
+                value = gender,
+                onValueChange = { onEvent(CharacterListUiEvent.UpdateFilters(name,it,race)) },
+                label = { Text("Genero") },
+                modifier = Modifier.weight(1f)
             )
 
-            Button(
-                onClick = { onEvent(ListPlanetUiEvent.Search) },
-                modifier = Modifier.align(Alignment.End)
-            ) {
-                Text("Buscar")
-            }
+            OutlinedTextField(
+                value = race,
+                onValueChange = { onEvent(CharacterListUiEvent.UpdateFilters(name,gender,it)) },
+                label = { Text("Raza") },
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Button(
+            onClick = { onEvent(CharacterListUiEvent.Search) },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Buscar")
         }
     }
 }
 
 @Composable
-fun PlanetItem(
-    planet: Planet,
-    onClick: () -> Unit
+fun CharacterItem(
+    character: Character,
+    onClick: () -> Unit,
 ) {
     ElevatedCard(
         modifier = Modifier
@@ -144,29 +156,16 @@ fun PlanetItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = planet.image,
-                contentDescription = planet.name,
+                model = character.image,
+                contentDescription = character.name,
                 modifier = Modifier.size(64.dp)
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
             Column {
-                Text(
-                    text = planet.name,
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Text(
-                    text = if (planet.isDestroyed) "Destruido" else "Intacto",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = if (planet.isDestroyed) {
-                        MaterialTheme.colorScheme.error
-                    }
-                    else {
-                        MaterialTheme.colorScheme.primary
-                    }
-                )
+                Text(character.name)
+                Text("${character.race} • ${character.gender}")
             }
         }
     }
